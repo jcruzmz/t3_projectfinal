@@ -1,0 +1,12 @@
+package com.diego.retrivecurrenttransaction.dto;
+
+import java.util.Date;
+
+import lombok.Data;
+
+@Data
+public class TransactionDto {
+	private Integer customerId;
+	private Date date;
+	private TransactionDescriptionDto transactionDescription;
+}
