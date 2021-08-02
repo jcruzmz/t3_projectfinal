@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.diego.retrivetransaction.dto.TransactionsDto;
+import com.diego.retrivetransaction.exception.ClientNotFoundException;
 import com.diego.retrivetransaction.vo.RequestClientVo;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -13,11 +14,10 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 public interface TransactionClient {
 
 	@PostMapping("/retrieve-current-information")
-	@CircuitBreaker(name="RETRIEVE-CURRENT-TRANSACTION", fallbackMethod = "getTransactionsFallback")
+	@CircuitBreaker(name = "RETRIEVE-CURRENT-TRANSACTION", fallbackMethod = "notFound")
 	TransactionsDto getTransactions(@RequestBody RequestClientVo request);
 	
-	default TransactionsDto getTransactionsFallback(Throwable throwable) {
-		return new TransactionsDto();
+	default TransactionsDto notFound(Throwable throwable) {
+		throw new ClientNotFoundException("Client not responds");
 	}
-
 }

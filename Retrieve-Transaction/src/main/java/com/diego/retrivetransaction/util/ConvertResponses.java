@@ -1,5 +1,6 @@
 package com.diego.retrivetransaction.util;
 
+import java.text.DateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +13,7 @@ import com.diego.retrivetransaction.vo.RequestVo;
 
 @Component
 public class ConvertResponses {
+	DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
 
 	public RequestClientVo convertToResponseVo(RequestVo request) {
 		RequestClientVo requestClient = new RequestClientVo();
@@ -27,7 +29,7 @@ public class ConvertResponses {
 		return transactions.getTransactions().stream().map(transaction -> {
 			TransactionMapDto mapTransaction = new TransactionMapDto();
 			mapTransaction.setAmount(transaction.getTransactionDescription().getAmount());
-			mapTransaction.setDate(transaction.getDate());
+			mapTransaction.setDate(dateFormat.format(transaction.getDate()));
 			mapTransaction.setDescription(transaction.getTransactionDescription().getDescription());
 			mapTransaction.setTransactionType(transaction.getTransactionDescription().getTransactionType());
 			return mapTransaction;
